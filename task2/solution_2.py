@@ -1,3 +1,6 @@
+import sys
+
+
 def circle_and_points(circle_points, single_points):
     cx, cy, r = map(float, circle_points)
     r_squared = r ** 2
@@ -17,19 +20,35 @@ def circle_and_points(circle_points, single_points):
     return results
 
 
-circle_file = open('file_one.txt', 'r')
-circle_points = [line.strip() for line in circle_file]
-circle_file.close()
+def read_points_from_file(file_path):
+    with open(file_path, 'r') as file:
+        return [line.strip() for line in file]
 
-if len(circle_points) == 2:
-    circle_points = circle_points[0].split() + [circle_points[1]]
-else:
-    circle_points = circle_points[0].split() + circle_points[1:]
 
-points_file = open('file_two.txt', 'r')
-single_points = [line.strip() for line in points_file]
-points_file.close()
+def main():
+    if len(sys.argv) != 3:
+        print("""
+              Введите команду:
+              python3 solution_2.py <circle_file> <points_file>
+              """
+              )
+        return
 
-result = circle_and_points(circle_points, single_points)
-for n in result:
-    print(n)
+    circle_file = sys.argv[1]
+    points_file = sys.argv[2]
+
+    circle_points = read_points_from_file(circle_file)
+    if len(circle_points) == 2:
+        circle_points = circle_points[0].split() + [circle_points[1]]
+    else:
+        circle_points = circle_points[0].split() + circle_points[1:]
+
+    single_points = read_points_from_file(points_file)
+
+    result = circle_and_points(circle_points, single_points)
+    for n in result:
+        print(n)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,12 +1,15 @@
+import sys
 import json
 
-with open('values.json', 'r') as values_file:
-    values_data = json.load(values_file)
 
-with open('tests.json', 'r') as tests_file:
-    tests_data = json.load(tests_file)
+def load_json(file_path):
+    with open(file_path, 'r') as values_file:
+        return json.load(values_file)
 
-values_dict = {item['id']: item['value'] for item in values_data['values']}
+
+def save_json(data, file_path):
+    with open(file_path, 'w') as tests_file:
+        json.dump(data, tests_file, indent=2)
 
 
 def fill_values(tests, values_dict):
@@ -18,7 +21,26 @@ def fill_values(tests, values_dict):
             fill_values(test['values'], values_dict)
 
 
-fill_values(tests_data['tests'], values_dict)
+def main():
+    if len(sys.argv) != 4:
+        print("""
+              Введите команду:
+              python3 solution_3.py <values.json> <tests.json> <report.json>
+              """
+              )
+        return
 
-with open('report.json', 'w') as report_file:
-    json.dump(tests_data, report_file, indent=2)
+    values_file = sys.argv[1]
+    tests_file = sys.argv[2]
+    report_file = sys.argv[3]
+
+    values_data = load_json(values_file)
+    tests_data = load_json(tests_file)
+    values_dict = {item['id']: item['value'] for item in values_data['values']}
+
+    fill_values(tests_data['tests'], values_dict)
+    save_json(tests_data, report_file)
+
+
+if __name__ == "__main__":
+    main()

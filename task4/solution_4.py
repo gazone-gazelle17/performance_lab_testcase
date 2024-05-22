@@ -18,14 +18,11 @@ def main():
               """
               )
         return
-
     file_path = sys.argv[1]
     nums = []
-
     with open(file_path, 'r') as file:
         for line in file:
             nums.extend(map(int, line.split()))
-
     result = find_steps(nums)
     print(int(result))
 

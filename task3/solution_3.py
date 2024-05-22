@@ -29,15 +29,12 @@ def main():
               """
               )
         return
-
     values_file = sys.argv[1]
     tests_file = sys.argv[2]
     report_file = sys.argv[3]
-
     values_data = load_json(values_file)
     tests_data = load_json(tests_file)
     values_dict = {item['id']: item['value'] for item in values_data['values']}
-
     fill_values(tests_data['tests'], values_dict)
     save_json(tests_data, report_file)
 

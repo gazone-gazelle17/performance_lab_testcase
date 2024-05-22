@@ -21,9 +21,15 @@ circle_file = open('file_one.txt', 'r')
 circle_points = [line.strip() for line in circle_file]
 circle_file.close()
 
+if len(circle_points) == 2:
+    circle_points = circle_points[0].split() + [circle_points[1]]
+else:
+    circle_points = circle_points[0].split() + circle_points[1:]
+
 points_file = open('file_two.txt', 'r')
 single_points = [line.strip() for line in points_file]
 points_file.close()
 
 result = circle_and_points(circle_points, single_points)
-print(list(n for n in result))
+for n in result:
+    print(n)
